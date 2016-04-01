@@ -308,6 +308,10 @@ class SoftMocksPrinter extends \PhpParser\PrettyPrinter\Standard
             . '{' . $this->pStmts($node->stmts) . '}';
     }
 
+    public function pScalar_Encapsed(\PhpParser\Node\Scalar\Encapsed $node) {
+        return '"' . $this->pEncapsList($node->parts, '"') . '"';
+    }
+
     protected function pEncapsList(array $encapsList, $quote)
     {
         $bak_line = $this->cur_ln;
@@ -315,6 +319,8 @@ class SoftMocksPrinter extends \PhpParser\PrettyPrinter\Standard
         foreach ($encapsList as $element) {
             if (is_string($element)) {
                 $return .= addcslashes($element, "\n\r\t\f\v$" . $quote . "\\");
+            } elseif ($element instanceof \PhpParser\Node\Scalar\EncapsedStringPart) {
+                $return .= '' . trim(addcslashes($element->value, "\n\r\t\f\v$" . $quote . "\\"));
             } else {
                 $return .= '{' . trim($this->p($element)) . '}';
             }
