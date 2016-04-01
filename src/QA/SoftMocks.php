@@ -292,7 +292,7 @@ class SoftMocksPrinter extends \PhpParser\PrettyPrinter\Standard
         return '__halt_compiler();' . $node->remaining;
     }
 
-    public function pExpr_Exit(PhpParser\Node\Expr\Exit_ $node)
+    public function pExpr_Exit(\PhpParser\Node\Expr\Exit_ $node)
     {
         return "\\QA\\SoftMocks::callFunction(__NAMESPACE__, 'die', array())";
     }
